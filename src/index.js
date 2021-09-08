@@ -92,5 +92,6 @@ function current() {
 
   navigator.geolocation.getCurrentPosition(retrievePosition);
 }
+
 //let searchForm = document.querySelector("#clickhere");
 //searchForm.addEventListener("click", current);
