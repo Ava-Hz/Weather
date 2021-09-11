@@ -62,6 +62,27 @@ function convertToFahrenheit(event) {
   temperatureElement.innerHTML = temperatureElement.innerText * (9 / 5) + 32;
 }
 
+function forecastTemp() {
+  let forecast = document.querySelector("#forecast");
+  let forecastHTML = `<div class="row">`;
+  let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+  days.forEach(function (day) {
+    forecastHTML =
+      forecastHTML +
+      `  
+            <div class="col-2 forecast-color">
+              ${day}
+              <img src="src/weather.png" alt="" width="36px" class="img" />
+              <div class="weathertemp">
+                <span id="max"><b> 22°</b></span> <span class="min">11°</span>
+              </div>
+            </div>`;
+  });
+
+  forecastHTML = forecastHTML + `</div>`;
+  forecast.innerHTML = forecastHTML;
+}
+forecastTemp();
 // Feature #1
 let dateElement = document.querySelector("#date");
 let currentTime = new Date();
