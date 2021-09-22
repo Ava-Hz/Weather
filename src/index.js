@@ -25,13 +25,14 @@ function formatDate(date) {
 
 function search(event) {
   event.preventDefault();
+
   let cityElement = document.querySelector("#city");
   let cityInput = document.querySelector("#city-input");
   cityElement.innerHTML = cityInput.value;
   function showTemperature(response) {
     let temperature = Math.round(response.data.main.temp);
-    console.log(temperature);
-    console.log(response);
+    //console.log(temperature);
+    //console.log(response);
     let humidity = response.data.main.humidity;
     let wind = response.data.wind.speed;
     let windCity = document.querySelector("#wind");
@@ -45,7 +46,10 @@ function search(event) {
     let message = ` ${temperature}`;
     let h1 = document.querySelector("#temperature");
     h1.innerHTML = message;
+
+    getForcast(response.data.coord);
   }
+
   let cityIn = document.querySelector("#city-input");
   console.log(cityIn.value);
   let apiKey = "25f295202215ecb6da3f18bc02af2f01";
@@ -62,7 +66,16 @@ function convertToFahrenheit(event) {
   temperatureElement.innerHTML = temperatureElement.innerText * (9 / 5) + 32;
 }
 
-function forecastTemp() {
+function getForcast(coording) {
+  console.log(coording);
+  let apikey = "25f295202215ecb6da3f18bc02af2f01";
+  let myURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${coording.lat}&lon=${coording.lon}&appid=${apikey}&units=metric`;
+  console.log(myURL);
+  axios.get(myURL).then(forecastTemp);
+}
+
+function forecastTemp(response) {
+  console.log(response.data.daily);
   let forecast = document.querySelector("#forecast");
   let forecastHTML = `<div class="row">`;
   let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
@@ -82,7 +95,7 @@ function forecastTemp() {
   forecastHTML = forecastHTML + `</div>`;
   forecast.innerHTML = forecastHTML;
 }
-forecastTemp();
+
 // Feature #1
 let dateElement = document.querySelector("#date");
 let currentTime = new Date();
