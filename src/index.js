@@ -74,22 +74,37 @@ function getForcast(coording) {
   axios.get(myURL).then(forecastTemp);
 }
 
+function formatdays(time) {
+  let date = new Date(time * 1000);
+  let day = date.getDay();
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  return days[day];
+}
+
 function forecastTemp(response) {
-  console.log(response.data.daily);
+  let forcastdays = response.data.daily;
   let forecast = document.querySelector("#forecast");
   let forecastHTML = `<div class="row">`;
-  let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
-  days.forEach(function (day) {
-    forecastHTML =
-      forecastHTML +
-      `  
+
+  forcastdays.forEach(function (forcastday, index) {
+    if (index < 6) {
+      forecastHTML =
+        forecastHTML +
+        `  
             <div class="col-2 forecast-color">
-              ${day}
-              <img src="src/weather.png" alt="" width="36px" class="img" />
+              ${formatdays(forcastday.dt)}
+              <img src="http://openweathermap.org/img/wn/${
+                forcastday.weather[0].icon
+              }@2x.png" alt="" width="36px" class="img" />
               <div class="weathertemp">
-                <span id="max"><b> 22°</b></span> <span class="min">11°</span>
+                <span id="max"><b> ${Math.round(
+                  forcastday.temp.max
+                )}°</b></span> <span class="min">${Math.round(
+          forcastday.temp.min
+        )}°</span>
               </div>
             </div>`;
+    }
   });
 
   forecastHTML = forecastHTML + `</div>`;
